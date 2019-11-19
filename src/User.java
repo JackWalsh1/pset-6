@@ -1,14 +1,25 @@
 public class User {
     
-    private String firstName;
-    private String lastName;
-    
-    ////////////////////////////////////////////////////////////////////////////
-    //                                                                        //
-    // Refer to the Simple ATM tutorial to fill in the details of this class. //
-    //                                                                        //
-    ////////////////////////////////////////////////////////////////////////////
-    
+	  //Initializes instance variables
+	  private String firstName;
+	  private String lastName;
+
+	  //Constructor, creates instances of class
+	  public User(String firstName, String lastName) {
+	    this.firstName = firstName;
+	    this.lastName = lastName;
+	    
+	  }
+
+	  //Getters to retrieve info from User class
+	  public String getFirstName() {
+	    return firstName;
+	  }
+
+	  public String getLastName() {
+	    return lastName;
+	  }
+	  
     /**
      * Formats the first and last name in preparation to be written to the data file.
      * 
@@ -16,8 +27,11 @@ public class User {
      */
     
     public String serialize() {
-        return String.format("%1$-" + ATM.FIRST_NAME_WIDTH + "s", firstName) +
-            String.format("%1$-" + ATM.LAST_NAME_WIDTH + "s", lastName);
+    	//FIRST_NAME_WIDTH = firstName.length();
+    	//LAST_NAME_WIDTH = lastName.length();
+    	return null;
+        //return String.format("%1$-" + ATM.FIRST_NAME_WIDTH + "s", firstName) +
+            //String.format("%1$-" + ATM.LAST_NAME_WIDTH + "s", lastName);
     }
 }
 

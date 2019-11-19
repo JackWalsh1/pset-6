@@ -1,15 +1,66 @@
+import java.text.NumberFormat;
+
 public class BankAccount {
         
+    //Defines account number generation
+    private static long prevAccountNo = 10000000L;
+
+    //Initializes instance variables
     private int pin;
     private long accountNo;
-    private double balance;
     private User accountHolder;
+    private double balance;
+
+    //Constructor, creates instances of class
+    public BankAccount(int pin, long accountNo, double balance, User accountHolder) {
+        this.pin = pin;
+        this.accountNo = ++BankAccount.prevAccountNo;
+        this.balance = 0.0;
+        this.accountHolder = accountHolder;
+    }
+
+    //Getters to retrieve info from BankAccount class
+    public int getPin() {
+        return pin;
+    }
     
-    ////////////////////////////////////////////////////////////////////////////
-    //                                                                        //
-    // Refer to the Simple ATM tutorial to fill in the details of this class. //
-    //                                                                        //
-    ////////////////////////////////////////////////////////////////////////////
+    public long getAccountNo() {
+        return accountNo;
+    }
+    
+    public String getBalance() {
+        NumberFormat currency = NumberFormat.getCurrencyInstance();
+    
+        return currency.format(balance); //Solves "view balance" action
+    }
+    
+    public User getAccountHolder() {
+        return accountHolder;
+    }
+
+    //Solves "deposit / withdraw cash" action
+
+    public int deposit(double amount) {
+        if (amount <= 0) {
+            return ATM.INVALID;    
+        } else {
+            balance = balance + amount;
+        }
+            
+        return ATM.SUCCESS;
+    }
+    
+    public int withdraw(double amount) {
+        if (amount <= 0) {
+            return ATM.INVALID;
+        } else if (amount > balance) {
+            return ATM.INSUFFICIENT;
+        } else {
+            balance = balance - amount;
+        }
+        
+        return ATM.SUCCESS;
+    }
     
     /*
      * Formats the account balance in preparation to be written to the data file.
