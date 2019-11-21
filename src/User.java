@@ -27,11 +27,8 @@ public class User {
      */
     
     public String serialize() {
-    	//FIRST_NAME_WIDTH = firstName.length();
-    	//LAST_NAME_WIDTH = lastName.length();
-    	return null;
-        //return String.format("%1$-" + ATM.FIRST_NAME_WIDTH + "s", firstName) +
-            //String.format("%1$-" + ATM.LAST_NAME_WIDTH + "s", lastName);
+        return String.format("%1$-" + ATM.FIRST_NAME_WIDTH + "s", firstName) +
+            String.format("%1$-" + ATM.LAST_NAME_WIDTH + "s", lastName);
     }
 }
 

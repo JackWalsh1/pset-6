@@ -3,7 +3,7 @@ import java.text.NumberFormat;
 public class BankAccount {
         
     //Defines account number generation
-    private static long prevAccountNo = 10000000L;
+    private static long prevAccountNo = 100000000L;
 
     //Initializes instance variables
     private int pin;
