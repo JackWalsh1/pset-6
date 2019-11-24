@@ -52,8 +52,7 @@ public class ATM {
         		in.nextLine();
         	}
         	
-            System.out.print("Account No.: ");
-            String accountNoString = in.nextLine();
+        	String accountNoString;
             do {
     			System.out.print("Account No.: ");
     			accountNoString = in.nextLine();
@@ -70,8 +69,7 @@ public class ATM {
 	            int pin = in.nextInt();
 	            
 	            //Check for login validity
-	            activeAccount = bank.login(accountNo, pin);
-	            if (activeAccount != null) {
+	            if (isValidLogin(accountNo, pin)) {
 	            	
 	                //Valid
 	                System.out.println("\nHello again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
@@ -134,14 +132,16 @@ public class ATM {
     }
     
     public boolean isValidLogin(long accountNo, int pin) {
-        return accountNo == activeAccount.getAccountNo() && pin == activeAccount.getPin();
+        activeAccount = bank.login(accountNo, pin);
+        return activeAccount != null;
     }
     
     public int getSelection() {
         System.out.println("[1] View balance");
         System.out.println("[2] Deposit money");
         System.out.println("[3] Withdraw money");
-        System.out.println("[4] Logout");
+        System.out.println("[5] Transfer funds");
+        System.out.println("[5] Logout");
         
         return in.nextInt();
     }
