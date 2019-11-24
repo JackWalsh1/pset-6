@@ -62,6 +62,13 @@ public class BankAccount {
         return ATM.SUCCESS;
     }
     
+    public String transfer(long transferAccount, double amount) {
+    	if (transferAccount.getBalance() + amount > 999999999999.99) {
+    		return "Transfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99."; 
+    	} 
+    	return "Transfer accepted.";
+    }
+    
     /*
      * Formats the account balance in preparation to be written to the data file.
      * 

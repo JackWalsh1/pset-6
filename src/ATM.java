@@ -9,8 +9,6 @@ public class ATM {
     private Bank bank;
     private long accountNo;
 
-    
-    
     //Gives value to switch statement on line 35
     public static final int VIEW = 1;
     public static final int DEPOSIT = 2;
@@ -85,9 +83,12 @@ public class ATM {
 	            System.out.print("PIN        : ");
 	            int pin = in.nextInt();
 	            
-	            if (isValidLogin(accountNo, pin)) {
+	            //Check for login validity
+	            activeAccount = bank.login(accountNo, pin);
+	            if (activeAccount != null) {
+	            	
 	                //Valid
-	                System.out.println("\nHello, again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
+	                System.out.println("\nHello again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
 	                
 	                //Selection loop
 	                boolean validLogin = true;
@@ -105,6 +106,7 @@ public class ATM {
 	            	shutdown();
 	            } else {
 	              System.out.println("\nInvalid account number and/or PIN.\n");
+	              needNextLine++;
 	            }
             }
         }
@@ -153,7 +155,29 @@ public class ATM {
             System.out.println("\nWithdrawal accepted.\n");
         }
     }
-
+    
+    public void transfer() {
+    	System.out.print("Enter account: ");
+    	long transferAccount = in.nextLong();
+    	
+    	if (bank.getAccount(transferAccount) != null) {
+            System.out.print("\nEnter amount: ");
+            double amount = in.nextDouble();
+                
+            int status = activeAccount.withdraw(amount);
+            if (status == ATM.INVALID) {
+                System.out.println("\nTransfer rejected. Amount must be greater than $0.00.\n");
+            } else if (status == ATM.INSUFFICIENT) {
+                System.out.println("\nTransfer rejected. Insufficient funds.\n");
+            } else if (status == ATM.SUCCESS) {
+                String transferStatus = activeAccount.transfer(transferAccount, amount);
+                System.out.print(transferStatus);
+            }
+            
+    	} else {
+    		System.out.println("Transfer rejected. Destination account not found.");
+    	}
+    }
     
     public void shutdown() {
         if (in != null) {
