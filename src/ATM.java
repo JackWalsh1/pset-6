@@ -15,10 +15,12 @@ public class ATM {
     public static final int WITHDRAW = 3;
     public static final int LOGOUT = 4;
 
-    //Gives value to deposit / withdraw statements in BankAccount.java
+    //Gives value to deposit / withdraw / transfer statements in BankAccount.java
     public static final int INVALID = 0;
     public static final int INSUFFICIENT = 1;
     public static final int SUCCESS = 2;
+    
+    public static final long MAXAMOUNT = 1000000000000L;
     
     public static final int FIRST_NAME_WIDTH = 20;
     public static final int LAST_NAME_WIDTH = 20;
@@ -53,29 +55,7 @@ public class ATM {
             String accountNoString = in.nextLine();
             
             if (accountNoString.equals("+")) { //Create Account Check
-            	//Create account
-            	String newFirstName;
-            	String newLastName;
-                int newPin;
-                User newUser;
-            	
-            	System.out.print("First name: ");
-            	newFirstName = in.nextLine();
-            	System.out.print("Last name: ");
-            	newLastName = in.nextLine();
-            	System.out.print("PIN: ");
-            	newPin = in.nextInt();
-            	
-            	newUser = new User(newFirstName, newLastName);
-            	BankAccount newAccount = bank.createAccount(newPin, newUser);
-            	
-            	bank.update(newAccount);
-            	bank.save();
-            	
-            	System.out.println("Thank you. Your account number is " + newAccount.getAccountNo());
-            	System.out.println("Please login to access your newly created account.");
-            	needNextLine++;
-            	
+            	createAccount();
             } else {
             	//Continue with login
 	            accountNo = Long.valueOf(accountNoString);
@@ -110,6 +90,40 @@ public class ATM {
 	            }
             }
         }
+    }
+    
+    public void createAccount() {
+		String newFirstName;
+		String newLastName;
+	    int newPin;
+	    long longPin;
+	    User newUser;
+		
+		do { //Infinite prompt til proper first name is entered
+			System.out.print("First Name: ");
+			newFirstName = in.nextLine();
+		} while(newFirstName.length() > 20 || newFirstName.equals(""));
+
+		do { //Infinite prompt til proper last name is entered
+			System.out.print("Last Name: ");
+			newLastName = in.nextLine();
+		} while (newLastName.length() > 30 || newLastName.equals(""));
+		
+		do { //Infinite prompt til proper pin is entered
+			System.out.print("Pin: ");
+	    	newPin = in.nextInt();
+	    	longPin = Long.valueOf(newPin);
+		} while (longPin > 9999L || longPin < 1000L);
+		
+		newUser = new User(newFirstName, newLastName);
+		BankAccount newAccount = bank.createAccount(newPin, newUser);
+		
+		bank.update(newAccount);
+		bank.save();
+		
+		System.out.println("\nThank you. Your account number is " + newAccount.getAccountNo());
+		System.out.println("Please login to access your newly created account.");
+		needNextLine++;
     }
     
     public boolean isValidLogin(long accountNo, int pin) {
