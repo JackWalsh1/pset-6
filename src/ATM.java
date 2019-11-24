@@ -69,7 +69,7 @@ public class ATM {
 	            int pin = in.nextInt();
 	            
 	            //Check for login validity
-	            if (isValidLogin(accountNo, pin)) {
+	            if (accountNo != -1 && isValidLogin(accountNo, pin)) {
 	            	
 	                //Valid
 	                System.out.println("\nHello again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
@@ -140,7 +140,7 @@ public class ATM {
         System.out.println("[1] View balance");
         System.out.println("[2] Deposit money");
         System.out.println("[3] Withdraw money");
-        System.out.println("[5] Transfer funds");
+        System.out.println("[4] Transfer funds");
         System.out.println("[5] Logout");
         
         return in.nextInt();
