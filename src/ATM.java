@@ -13,7 +13,8 @@ public class ATM {
     public static final int VIEW = 1;
     public static final int DEPOSIT = 2;
     public static final int WITHDRAW = 3;
-    public static final int LOGOUT = 4;
+    public static final int TRANSFER = 4;
+    public static final int LOGOUT = 5;
 
     //Gives value to deposit / withdraw / transfer statements in BankAccount.java
     public static final int INVALID = 0;
@@ -53,6 +54,11 @@ public class ATM {
         	
             System.out.print("Account No.: ");
             String accountNoString = in.nextLine();
+            do {
+    			System.out.print("Account No.: ");
+    			accountNoString = in.nextLine();
+    		} while(!accountNoString.equals("+") && (accountNoString.equals("") || Long.valueOf(accountNoString) < 100000001L
+    				  || Long.valueOf(accountNoString) > 999999999L) && !accountNoString.equals("-1"));
             
             if (accountNoString.equals("+")) { //Create Account Check
             	createAccount();
@@ -78,6 +84,7 @@ public class ATM {
 	                        case VIEW: showBalance(); break;
 	                        case DEPOSIT: deposit(); break;
 	                        case WITHDRAW: withdraw(); break;
+	                        case TRANSFER: transfer(); break;
 	                        case LOGOUT: validLogin = false; break;
 	                        default: System.out.println("\nInvalid selection.\n"); break;
 	                    }
