@@ -25,8 +25,9 @@ public class ATM {
     public static final long MAXAMOUNT = 1000000000000L;
     
     public static final int FIRST_NAME_WIDTH = 20;
-    public static final int LAST_NAME_WIDTH = 20;
-    int needNextLine = 0;
+    public static final int LAST_NAME_WIDTH = 30;
+    boolean needNextLine = false;
+    boolean logoutDuringSession = false;
     
     //Constructs a new instance of the ATM class.
     
@@ -49,7 +50,7 @@ public class ATM {
         	
             //Account No check
         	
-        	if(needNextLine != 0) {
+        	if(needNextLine) {
         		in.nextLine();
         	}
         	
@@ -92,7 +93,7 @@ public class ATM {
 	            	shutdown();
 	            } else {
 	              System.out.println("\nInvalid account number and/or PIN.\n");
-	              needNextLine++;
+	              needNextLine = true;
 	            }
             }
         }
@@ -130,7 +131,7 @@ public class ATM {
 		
 		System.out.println("\nThank you. Your account number is " + newAccount.getAccountNo());
 		System.out.println("Please login to access your newly created account.");
-		needNextLine++;
+		needNextLine = true;
     }
     
     public boolean isValidLogin(long accountNo, int pin) {
