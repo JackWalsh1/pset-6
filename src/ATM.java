@@ -17,9 +17,10 @@ public class ATM {
     public static final int LOGOUT = 5;
 
     //Gives value to deposit / withdraw / transfer statements in BankAccount.java
-    public static final int INVALID = 0;
+    public static final int INVALIDLOW = 0;
     public static final int INSUFFICIENT = 1;
     public static final int SUCCESS = 2;
+    public static final int INVALIDMAX = 3;
     
     public static final long MAXAMOUNT = 1000000000000L;
     
@@ -33,10 +34,10 @@ public class ATM {
         this.in = new Scanner(System.in);
         
         try {
-	    this.bank = new Bank();
-	} catch (IOException e) {
+        	this.bank = new Bank();
+        } catch (IOException e) {
 	    // cleanup any resources (i.e., the Scanner) and exit
-	}       
+        }       
     }
     
     //Application execution begins here.
@@ -120,9 +121,10 @@ public class ATM {
 	    	longPin = Long.valueOf(newPin);
 		} while (longPin > 9999L || longPin < 1000L);
 		
+		//Giving values to variables
 		newUser = new User(newFirstName, newLastName);
 		BankAccount newAccount = bank.createAccount(newPin, newUser);
-		
+	
 		bank.update(newAccount);
 		bank.save();
 		
@@ -156,7 +158,7 @@ public class ATM {
         double amount = in.nextDouble();
             
         int status = activeAccount.deposit(amount);
-        if (status == ATM.INVALID) {
+        if (status == ATM.INVALIDLOW) {
             System.out.println("\nDeposit rejected. Amount must be greater than $0.00.\n");
         } else if (status == ATM.SUCCESS) {
             System.out.println("\nDeposit accepted.\n");
@@ -168,7 +170,7 @@ public class ATM {
         double amount = in.nextDouble();
             
         int status = activeAccount.withdraw(amount);
-        if (status == ATM.INVALID) {
+        if (status == ATM.INVALIDLOW) {
             System.out.println("\nWithdrawal rejected. Amount must be greater than $0.00.\n");
         } else if (status == ATM.INSUFFICIENT) {
             System.out.println("\nWithdrawal rejected. Insufficient funds.\n");
@@ -179,25 +181,37 @@ public class ATM {
     
     public void transfer() {
     	System.out.print("Enter account: ");
-    	long transferAccount = in.nextLong();
+    	long transferAccountNo = in.nextLong();
     	
-    	if (bank.getAccount(transferAccount) != null) {
-            System.out.print("\nEnter amount: ");
+    	if (bank.getAccount(transferAccountNo) != null && transferAccountNo != activeAccount.getAccountNo()) { //if account exists
+            
+    		System.out.print("\nEnter amount: ");
             double amount = in.nextDouble();
-                
+            
             int status = activeAccount.withdraw(amount);
-            if (status == ATM.INVALID) {
+            if (status == ATM.INVALIDLOW) {
                 System.out.println("\nTransfer rejected. Amount must be greater than $0.00.\n");
             } else if (status == ATM.INSUFFICIENT) {
                 System.out.println("\nTransfer rejected. Insufficient funds.\n");
             } else if (status == ATM.SUCCESS) {
-                String transferStatus = activeAccount.transfer(transferAccount, amount);
-                System.out.print(transferStatus);
+            	BankAccount transferAccount = bank.getAccount(transferAccountNo);
+                int transferStatus = transferAccount.deposit(amount);
+                if (transferStatus == ATM.INVALIDMAX) {
+                	System.out.println("\nTransfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99.");
+                } else if (transferStatus == ATM.SUCCESS) {
+                	System.out.println("Transfer accepted. Balance is now " + activeAccount.getBalance() + ".");
+                }
+            	bank.update(transferAccount);
             }
             
+    	} else if (transferAccountNo == activeAccount.getAccountNo()) {
+    		System.out.println("Transfer rejected. Destination account cannot be same as origin account.");
     	} else {
     		System.out.println("Transfer rejected. Destination account not found.");
     	}
+    	
+    	bank.update(activeAccount);
+    	bank.save();
     }
     
     public void shutdown() {

@@ -42,17 +42,34 @@ public class BankAccount {
 
     public int deposit(double amount) {
         if (amount <= 0) {
-            return ATM.INVALID;    
+            return ATM.INVALIDLOW;    
+        } else if (amount + balance > ATM.MAXAMOUNT) {
+        	return ATM.INVALIDMAX;
         } else {
             balance = balance + amount;
         }
             
         return ATM.SUCCESS;
     }
+     
+//    public int transfer(long accountNo, double amount) {
+//    	if (balance + amount >= ATM.MAXAMOUNT) {
+//    		return ATM.INVALIDMAX;
+//    	} else if (amount > balance) {
+//    		return ATM.INSUFFICIENT;
+//    	} else if (amount - balance < 0) {
+//    		return ATM.INSUFFICIENT;
+//    	} else if (wOD.equals("deposit")){
+//    		balance = balance + amount;
+//    	} else if (wOD.equals("withdraw")) {
+//    		balance = balance - amount;
+//    	}
+//    	return ATM.SUCCESS;
+//    }
     
     public int withdraw(double amount) {
         if (amount <= 0) {
-            return ATM.INVALID;
+            return ATM.INVALIDLOW;
         } else if (amount > balance) {
             return ATM.INSUFFICIENT;
         } else {
@@ -62,13 +79,6 @@ public class BankAccount {
         return ATM.SUCCESS;
     }
     
-    public String transfer(long transferAccount, double amount) {
-    	if (transferAccount.getBalance() + amount > 999999999999.99) {
-    		return "Transfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99."; 
-    	} 
-    	return "Transfer accepted.";
-    }
-    
     /*
      * Formats the account balance in preparation to be written to the data file.
      * 
@@ -76,7 +86,7 @@ public class BankAccount {
      */
     
     private String formatBalance() {
-        return String.format("%1$15s", balance);
+    	return String.format("%.2f", balance);
     }
     
     /*
