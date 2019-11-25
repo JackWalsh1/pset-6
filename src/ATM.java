@@ -154,12 +154,15 @@ public class ATM {
     }
     
     public void deleteAccount() {
-    	System.out.println("Are you absolutely sure?");
+    	System.out.println("You can only delete your own account. Are you absolutely sure?");
         System.out.println("[1] Yes");
         System.out.println("[2] No");
         int choice =  in.nextInt();
         if (choice == 1) {
-        	//solve
+        	System.out.print("Please provide your account number: ");
+        	long accountNo = in.nextLong();
+        	System.out.print("Please provide your PIN: ");
+        	int pin = in.nextInt();
         } else if (choice == 2) {
         	System.out.println("Deletion aborted.");
         } else {
