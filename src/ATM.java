@@ -74,7 +74,7 @@ public class ATM {
 	            if (accountNo != -1 && isValidLogin(accountNo, pin)) {
 	            	
 	                //Valid
-	                System.out.println("\nHello again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
+	                System.out.print("\nHello again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
 	                
 	                //Selection loop
 	                boolean validLogin = true;
@@ -85,7 +85,7 @@ public class ATM {
 	                        case DEPOSIT: deposit(); break;
 	                        case WITHDRAW: withdraw(); break;
 	                        case TRANSFER: transfer(); break;
-	                        case LOGOUT: validLogin = false; break;
+	                        case LOGOUT: validLogin = false; logoutDuringSession = true; break;
 	                        default: System.out.println("\nInvalid selection.\n"); break;
 	                    }
 	                }
@@ -151,7 +151,7 @@ public class ATM {
     
     //Switch statement cases
     public void showBalance() { 
-        System.out.println("\nCurrent balance: " + activeAccount.getBalance());
+        System.out.println("\nCurrent balance: " + activeAccount.getBalance() + "\n");
     }
     
     public void deposit() { 
@@ -163,6 +163,8 @@ public class ATM {
             System.out.println("\nDeposit rejected. Amount must be greater than $0.00.\n");
         } else if (status == ATM.SUCCESS) {
             System.out.println("\nDeposit accepted.\n");
+            bank.update(activeAccount);
+            bank.save();
         }
     }
     
@@ -177,6 +179,8 @@ public class ATM {
             System.out.println("\nWithdrawal rejected. Insufficient funds.\n");
         } else if (status == ATM.SUCCESS) {
             System.out.println("\nWithdrawal accepted.\n");
+            bank.update(activeAccount);
+            bank.save();
         }
     }
     
@@ -194,7 +198,7 @@ public class ATM {
                 System.out.println("\nTransfer rejected. Amount must be greater than $0.00.\n");
             } else if (status == ATM.INSUFFICIENT) {
                 System.out.println("\nTransfer rejected. Insufficient funds.\n");
-            } else if (status == ATM.SUCCESS) {
+            } else if (status == ATM.SUCCESS) { //Withdrawal is successful
             	BankAccount transferAccount = bank.getAccount(transferAccountNo);
                 int transferStatus = transferAccount.deposit(amount);
                 if (transferStatus == ATM.INVALIDMAX) {
