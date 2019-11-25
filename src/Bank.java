@@ -10,11 +10,11 @@ import java.util.List;
 
 public class Bank {
 	
-    /*
-     * Accounts are read from a fixed-width file. Each account is represented
-     * as a single line of text. These start and end indexes help to parse the
-     * line of text into individual account fields.
-     */
+	/*
+	 * Accounts are read from a fixed-width file. Each account is represented
+	 * as a single line of text. These start and end indexes help to parse the
+	 *line of text into individual account fields.
+	 */
     
     private final static int ACCT_START = 0;
     private final static int ACCT_END = 9;
@@ -26,9 +26,9 @@ public class Bank {
     private final static int LAST_NAME_END = 63;
     private final static int BALANCE_START = 63;
     
-    private final static String DATA = "data/accounts.dat";    // data file path
+    private final static String DATA = "data/accounts.dat";		// data file path
     
-    private List<BankAccount> accounts;                        // an in-memory list of BankAccount objects
+    private List<BankAccount> accounts;							// an in-memory list of BankAccount objects
     
     /**
      * Constructs a new instance of the Bank class.
@@ -40,7 +40,7 @@ public class Bank {
         accounts = init();
         
         if (accounts == null) {
-            throw new IOException();
+        	throw new IOException();
         }
     }
     
@@ -68,9 +68,11 @@ public class Bank {
     
     public BankAccount login(long accountNo, int pin) {
         BankAccount bankAccount = getAccount(accountNo);
-        
-        if (bankAccount != null && bankAccount.getPin() == pin) {
-            return bankAccount;
+
+        if(bankAccount == null) {
+        	return null;
+        } else if(bankAccount.getPin() == pin) {
+        	return bankAccount;
         } else {
             return null;
         }
@@ -89,7 +91,6 @@ public class Bank {
                 return account;
             }
         }
-        
         return null;
     }
     
@@ -112,6 +113,7 @@ public class Bank {
         }
         
         accounts.set(index, account);
+        
     }
     
     /**
@@ -157,8 +159,7 @@ public class Bank {
             System.err.println("Error: Unable to read from data file.");
             
             accounts = null;
-        }
-        
+        }      
         return accounts;
     }
     
@@ -187,8 +188,8 @@ public class Bank {
      * @return the bank account
      */
     
-    private static BankAccount parseBankAccount(String account) {
-        return new BankAccount(Bank.parsePin(account),
+    private static BankAccount parseBankAccount(String account) { 
+    	return new BankAccount(Bank.parsePin(account),
             Bank.parseAccountNo(account),
             Bank.parseBalance(account),
             Bank.parseUser(account)

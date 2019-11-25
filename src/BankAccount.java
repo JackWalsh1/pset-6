@@ -51,21 +51,6 @@ public class BankAccount {
             
         return ATM.SUCCESS;
     }
-     
-//    public int transfer(long accountNo, double amount) {
-//    	if (balance + amount >= ATM.MAXAMOUNT) {
-//    		return ATM.INVALIDMAX;
-//    	} else if (amount > balance) {
-//    		return ATM.INSUFFICIENT;
-//    	} else if (amount - balance < 0) {
-//    		return ATM.INSUFFICIENT;
-//    	} else if (wOD.equals("deposit")){
-//    		balance = balance + amount;
-//    	} else if (wOD.equals("withdraw")) {
-//    		balance = balance - amount;
-//    	}
-//    	return ATM.SUCCESS;
-//    }
     
     public int withdraw(double amount) {
         if (amount <= 0) {
