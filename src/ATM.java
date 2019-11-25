@@ -136,7 +136,7 @@ public class ATM {
     
     public boolean isValidLogin(long accountNo, int pin) {
         activeAccount = bank.login(accountNo, pin);
-        return activeAccount != null;
+        return activeAccount != null; 
     }
     
     public int getSelection() {
