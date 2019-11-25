@@ -163,6 +163,20 @@ public class ATM {
         	long accountNo = in.nextLong();
         	System.out.print("Please provide your PIN: ");
         	int pin = in.nextInt();
+        	
+        	if (bank.login(accountNo, pin) != null) {
+            	System.out.println("One last time- are you absolutely sure?");
+                System.out.println("[1] Yes");
+                System.out.println("[2] No");
+                choice =  in.nextInt();
+                if (choice == 1) {
+                	
+                } else {
+                	
+                }
+        	} else {
+        		System.out.println("Invalid combination inputted. Deletion aborted.");
+        	}
         } else if (choice == 2) {
         	System.out.println("Deletion aborted.");
         } else {
