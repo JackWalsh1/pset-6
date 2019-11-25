@@ -79,7 +79,6 @@ public class ATM {
 	                //Selection loop
 	                boolean validLogin = true;
 	                while (validLogin) {
-	                    //User selects desired action
 	                    switch (getSelection()) {
 	                        case VIEW: showBalance(); break;
 	                        case DEPOSIT: deposit(); break;
@@ -152,6 +151,20 @@ public class ATM {
     //Switch statement cases
     public void showBalance() { 
         System.out.println("\nCurrent balance: " + activeAccount.getBalance() + "\n");
+    }
+    
+    public void deleteAccount() {
+    	System.out.println("Are you absolutely sure?");
+        System.out.println("[1] Yes");
+        System.out.println("[2] No");
+        int choice =  in.nextInt();
+        if (choice == 1) {
+        	//solve
+        } else if (choice == 2) {
+        	System.out.println("Deletion aborted.");
+        } else {
+        	System.out.println("Invalid selection inputted. Deletion aborted.");
+        }
     }
     
     public void deposit() { 
