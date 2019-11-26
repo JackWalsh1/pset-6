@@ -94,6 +94,30 @@ public class Bank {
         return null;
     }
     
+    
+    /*
+     * Retrieves index of account by line.
+     * 
+     * @param accountNo the account of the wanted index
+     * @return index of the desired account in accounts.dat
+     */
+    
+    public int getIndexOfAccount(long accountNo) {
+    	return accounts.indexOf(getAccount(accountNo));
+    }
+    
+    /*
+     * Deletes account on specified index.
+     * 
+     * @param accountNo the index of the account to delete
+     */
+    
+    public void deleteAccount(int index) {
+    	accounts.remove(index);
+    }
+
+ 
+    
     /**
      * Updates the information associated with a specific account.
      * 
