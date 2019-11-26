@@ -14,7 +14,8 @@ public class ATM {
     public static final int DEPOSIT = 2;
     public static final int WITHDRAW = 3;
     public static final int TRANSFER = 4;
-    public static final int LOGOUT = 5;
+    public static final int DELETE = 5;
+    public static final int LOGOUT = 6;
 
     //Gives value to deposit / withdraw / transfer statements in BankAccount.java
     public static final int INVALIDLOW = 0;
@@ -84,6 +85,7 @@ public class ATM {
 	                        case DEPOSIT: deposit(); break;
 	                        case WITHDRAW: withdraw(); break;
 	                        case TRANSFER: transfer(); break;
+	                        case DELETE: deleteAccount();
 	                        case LOGOUT: validLogin = false; logoutDuringSession = true; break;
 	                        default: System.out.println("\nInvalid selection.\n"); break;
 	                    }
@@ -143,7 +145,8 @@ public class ATM {
         System.out.println("[2] Deposit money");
         System.out.println("[3] Withdraw money");
         System.out.println("[4] Transfer funds");
-        System.out.println("[5] Logout");
+        System.out.println("[5] Delete account");
+        System.out.println("[6] Logout");
         
         return in.nextInt();
     }
