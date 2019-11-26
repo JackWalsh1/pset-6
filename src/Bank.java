@@ -94,7 +94,6 @@ public class Bank {
         return null;
     }
     
-    
     /*
      * Retrieves index of account by line.
      * 
@@ -115,9 +114,7 @@ public class Bank {
     public void deleteAccount(int index) {
     	accounts.remove(index);
     }
-
- 
-    
+   
     /**
      * Updates the information associated with a specific account.
      * 

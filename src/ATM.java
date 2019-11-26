@@ -200,23 +200,7 @@ public class ATM {
             bank.save();
         }
     }
-    
-    public void withdraw() { 
-        System.out.print("\nEnter amount: ");
-        double amount = in.nextDouble();
-            
-        int status = activeAccount.withdraw(amount);
-        if (status == ATM.INVALIDLOW) {
-            System.out.println("\nWithdrawal rejected. Amount must be greater than $0.00.\n");
-        } else if (status == ATM.INSUFFICIENT) {
-            System.out.println("\nWithdrawal rejected. Insufficient funds.\n");
-        } else if (status == ATM.SUCCESS) {
-            System.out.println("\nWithdrawal accepted.\n");
-            bank.update(activeAccount);
-            bank.save();
-        }
-    }
-    
+      
     public void transfer() {
     	System.out.print("Enter account: ");
     	long transferAccountNo = in.nextLong();
@@ -235,21 +219,37 @@ public class ATM {
             	BankAccount transferAccount = bank.getAccount(transferAccountNo);
                 int transferStatus = transferAccount.deposit(amount);
                 if (transferStatus == ATM.INVALIDMAX) {
-                	System.out.println("\nTransfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99.");
+                	System.out.println("\nTransfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99.\n");
                 } else if (transferStatus == ATM.SUCCESS) {
-                	System.out.println("Transfer accepted. Balance is now " + activeAccount.getBalance() + ".");
+                	System.out.println("\nTransfer accepted. Balance is now " + activeAccount.getBalance() + ".\n");
                 }
             	bank.update(transferAccount);
             }
             
     	} else if (transferAccountNo == activeAccount.getAccountNo()) {
-    		System.out.println("Transfer rejected. Destination account cannot be same as origin account.");
+    		System.out.println("\nTransfer rejected. Destination account cannot be same as origin account.\n");
     	} else {
-    		System.out.println("Transfer rejected. Destination account not found.");
+    		System.out.println("\nTransfer rejected. Destination account not found.\n");
     	}
     	
     	bank.update(activeAccount);
     	bank.save();
+    }
+    
+    public void withdraw() { 
+        System.out.print("\nEnter amount: ");
+        double amount = in.nextDouble();
+            
+        int status = activeAccount.withdraw(amount);
+        if (status == ATM.INVALIDLOW) {
+            System.out.println("\nWithdrawal rejected. Amount must be greater than $0.00.\n");
+        } else if (status == ATM.INSUFFICIENT) {
+            System.out.println("\nWithdrawal rejected. Insufficient funds.\n");
+        } else if (status == ATM.SUCCESS) {
+            System.out.println("\nWithdrawal accepted.\n");
+            bank.update(activeAccount);
+            bank.save();
+        }
     }
     
     public void shutdown() {
