@@ -85,7 +85,7 @@ public class ATM {
 	                        case DEPOSIT: deposit(); break;
 	                        case WITHDRAW: withdraw(); break;
 	                        case TRANSFER: transfer(); break;
-	                        case DELETE: deleteAccount();
+	                        case DELETE: delete();
 	                        case LOGOUT: validLogin = false; logoutDuringSession = true; break;
 	                        default: System.out.println("\nInvalid selection.\n"); break;
 	                    }
@@ -156,26 +156,26 @@ public class ATM {
         System.out.println("\nCurrent balance: " + activeAccount.getBalance() + "\n");
     }
     
-    public void deleteAccount() {
+    public void delete() {
     	System.out.println("You can only delete your own account. Are you absolutely sure?");
         System.out.println("[1] Yes");
         System.out.println("[2] No");
         int choice =  in.nextInt();
         if (choice == 1) {
-        	System.out.print("Please provide your account number: ");
-        	long accountNo = in.nextLong();
         	System.out.print("Please provide your PIN: ");
         	int pin = in.nextInt();
         	
-        	if (bank.login(accountNo, pin) != null) {
+        	if (bank.login(activeAccount.getAccountNo(), pin) != null) {
             	System.out.println("One last time- are you absolutely sure?");
                 System.out.println("[1] Yes");
                 System.out.println("[2] No");
                 choice =  in.nextInt();
                 if (choice == 1) {
-                	
+                	bank.deleteAccount(bank.getIndexOfAccount(activeAccount.getAccountNo()));
+                	System.out.println("Understood. Account deleted. Redirecting to login screen.");
+                	bank.save();
                 } else {
-                	
+                	System.out.println("Deletion aborted.");
                 }
         	} else {
         		System.out.println("Invalid combination inputted. Deletion aborted.");
